@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://486b9aca.mlob.pages.dev/sitemap.xml
+
+# Block codoc iframe content from indexing
+Disallow: /codoc/
+Disallow: /*?codoc*
+
+# Allow Google to index main content
+Allow: /*.html
+Allow: /*.css
+Allow: /*.js
