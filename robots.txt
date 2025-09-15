@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://486b9aca.mlob.pages.dev/sitemap.xml
+Sitemap: https://c8953d9b.mlob.pages.dev/sitemap.xml
 
 # Block codoc iframe content from indexing
 Disallow: /codoc/
