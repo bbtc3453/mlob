@@ -1,118 +1,141 @@
-// モーダル表示
-function showPurchaseModal() {
-    const modal = document.getElementById('purchaseModal');
-    modal.style.display = 'block';
-    
-    // 実際の運用時はここでcodocの埋め込みコードを動的に読み込む
-    // 例: loadCodocEmbed();
-}
+// モバイルメニュー機能
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
 
-// モーダル非表示
-function closePurchaseModal() {
-    const modal = document.getElementById('purchaseModal');
-    modal.style.display = 'none';
-}
+    if (mobileToggle && navMenu) {
+        mobileToggle.addEventListener('click', function() {
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
 
-// モーダル外クリックで閉じる
-window.onclick = function(event) {
-    const modal = document.getElementById('purchaseModal');
-    if (event.target == modal) {
-        modal.style.display = 'none';
+            // ハンバーガーアイコンのアニメーション
+            this.classList.toggle('active');
+        });
     }
-}
 
-// スムーススクロール
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+    // ナビゲーションリンクのスムーススクロール
+    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // 検索機能
+    const searchInput = document.querySelector('.search-input');
+    const searchBtn = document.querySelector('.search-btn');
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            const query = searchInput.value.trim();
+            if (query) {
+                // 検索処理（実装に応じてカスタマイズ）
+                console.log('検索クエリ:', query);
+                // 実際の検索処理をここに実装
+            }
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    console.log('検索クエリ:', query);
+                    // 実際の検索処理をここに実装
+                }
+            }
+        });
+    }
+
+    // 記事カードのフェードインアニメーション
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // 記事カードを監視対象に追加
+    const articleCards = document.querySelectorAll('.article-card');
+    articleCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        observer.observe(card);
+    });
+
+    // ウィジェットのフェードインアニメーション
+    const widgets = document.querySelectorAll('.widget');
+    widgets.forEach((widget, index) => {
+        widget.style.opacity = '0';
+        widget.style.transform = 'translateY(20px)';
+        widget.style.transition = `opacity 0.6s ease ${index * 0.2 + 0.3}s, transform 0.6s ease ${index * 0.2 + 0.3}s`;
+        observer.observe(widget);
+    });
+});
+
+// ドロップダウンメニューの制御（タッチデバイス対応）
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownItems = document.querySelectorAll('.has-dropdown');
+
+    dropdownItems.forEach(item => {
+        const link = item.querySelector('.nav-link');
+        const menu = item.querySelector('.dropdown-menu');
+
+        if (link && menu) {
+            // タッチデバイスでのクリック処理
+            link.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+                }
             });
         }
     });
 });
 
-// ページトップボタン（オプション）
+// スクロール時のヘッダーアニメーション
 window.addEventListener('scroll', function() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const topButton = document.getElementById('topButton');
-    
-    if (topButton) {
-        if (scrollTop > 300) {
-            topButton.style.display = 'block';
-        } else {
-            topButton.style.display = 'none';
-        }
+    const header = document.querySelector('.site-header');
+    if (window.scrollY > 100) {
+        header.style.transform = 'translateY(-5px)';
+        header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.15)';
+    } else {
+        header.style.transform = 'translateY(0)';
+        header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
     }
 });
 
-// 記事カードのアニメーション
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+// 記事ID管理オブジェクト（codoc用）
+// ファイル名とcodoc記事IDの対応表
+const articleIds = {
+    'Nu5wKI0rCA': 'Nu5wKI0rCA', // 【9/16,9/19,9/20出勤】20代新宿のキレカワ細身美女にマッサージで搾り取られた
+    'OnXStSLqyg': 'OnXStSLqyg', // 3部【9/15,9/18】力強い超王道マッサージの美少女セラピスト
+    'HR0Nj7m07w': 'HR0Nj7m07w', // 【9/15,9/17,9/18,9/19出勤】恵比寿・渋谷の老舗店に在籍する美人セラピストの"ゾクゾク系"体験記
+    'yoH20I3XjA': 'yoH20I3XjA', // 【9/16,9/18出勤】通いたくなるってこういうこと。恵比寿・清楚系セラ体験記
+    'mH7VtutiKw': 'mH7VtutiKw', // 3部【9/15,9/17,9/18出勤】小柄で清楚系な坂道系美少女と
+    'qI279OHeSw': 'qI279OHeSw'  // [9/18,9/20]清楚で華奢な彼女が鼠径部で…擦れて…密着して…えっ、これって…？
 };
-
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// ページ読み込み時の初期化
-document.addEventListener('DOMContentLoaded', function() {
-    // 記事カードにアニメーションを適用
-    const articleCards = document.querySelectorAll('.article-card');
-    articleCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
-        observer.observe(card);
-    });
-    
-    // codoc埋め込みの初期化（実装例）
-    initializeCodoc();
-});
 
 // codoc初期化（実装例）
 function initializeCodoc() {
     // 実際の運用時のcodoc初期化コード例
-    // このコードは実際のcodocのドキュメントに従って実装する必要があります
-    
-    /* 例：
-    if (typeof codoc !== 'undefined') {
-        codoc.init({
-            // codoc設定
-        });
-    }
-    */
-    
     console.log('codoc initialization placeholder');
-}
-
-// 記事購入処理（実装例）
-function purchaseArticle(articleId, price) {
-    // 実際の運用時の購入処理
-    console.log(`Article ${articleId} purchase initiated. Price: ${price}`);
-    
-    // codocの購入処理を呼び出す
-    /* 例：
-    codoc.purchase({
-        articleId: articleId,
-        price: price,
-        onSuccess: function(result) {
-            // 購入成功時の処理
-            window.location.href = result.articleUrl;
-        },
-        onError: function(error) {
-            // エラー処理
-            alert('購入処理中にエラーが発生しました。');
-        }
-    });
-    */
 }
