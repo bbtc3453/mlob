@@ -79,6 +79,9 @@ function replaceTemplateVariables(template, article, content) {
         .replace(/\{\{category\}\}/g, article.category)
         .replace(/\{\{codocId\}\}/g, article.codocId)
         .replace(/\{\{codocContentPreview\}\}/g, codocContentPreview)
+        .replace(/\{\{wakustUrl\}\}/g, article.wakustUrl || '')
+        .replace(/\{\{wakustPrice\}\}/g, article.wakustPrice || '')
+        .replace(/\{\{codocPrice\}\}/g, article.codocPrice || '')
         .replace(/\{\{content\}\}/g, content);
 }
 
