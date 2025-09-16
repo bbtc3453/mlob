@@ -62,6 +62,10 @@ function replaceTemplateVariables(template, article, content) {
         ? article.description.substring(0, 97) + '...'
         : article.description;
 
+    // codocコンテンツプレビューの生成
+    const codocContentPreview = article.codocContent ?
+        article.codocContent.map(item => `<br>${item}`).join('') : '';
+
     return template
         .replace(/\{\{title\}\}/g, article.title)
         .replace(/\{\{description\}\}/g, article.description)
@@ -74,6 +78,7 @@ function replaceTemplateVariables(template, article, content) {
         .replace(/\{\{publishDate\}\}/g, publishDate)
         .replace(/\{\{category\}\}/g, article.category)
         .replace(/\{\{codocId\}\}/g, article.codocId)
+        .replace(/\{\{codocContentPreview\}\}/g, codocContentPreview)
         .replace(/\{\{content\}\}/g, content);
 }
 
